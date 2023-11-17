@@ -12,24 +12,46 @@ namespace Verlag
         private string autor;
         private int auflage;
 
-        public Buch(string Autor, string Titel) 
-        {
-            this.Autor = Autor;
-            this.Titel = Titel;
+        string[] unerlaubteZeichen = { "", "#", ";", "§", "%"};
 
-            this.Auflage = 1;
+
+
+        //Konstruktor
+        public Buch(string Autor, string titel) 
+        {
+
+            for (int i = 0; i < unerlaubteZeichen.Length; i++)
+            {
+                if (this.Autor == unerlaubteZeichen[i])
+                {
+                    throw new ArgumentException("Es wurde ein unerlaubtes Zeichen benutzt");
+                }
+                this.Autor = Autor;
+
+            }
+            if (String.IsNullOrEmpty(this.Autor))
+            {
+                throw new ArgumentException("Es wurde ein unerlaubtes Zeichen benutzt");
+            }
+
+
+
+            this.titel = titel;
+            Auflage = 1;
         }
 
-
+        //Konstruktttor mit vererbung 
         public Buch(string Autor, string Titel, int Auflage) :this(Autor, Titel)
         {
             this.Auflage = Auflage;
         }
 
+
+
+
         public string Titel
         {
             get { return titel; }
-            set { titel = value; }
         }
 
         public string Autor
@@ -41,12 +63,17 @@ namespace Verlag
         public int Auflage
         {
             get { return auflage; }
-            set { auflage = value; }
+            set 
+            { //auflage = value; 
+                if (value >= 1)
+                {
+                    auflage = value;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("Auflage nummer ist nicht zuläassig");
+                }
+            }
         }
-
-
-
-
-
     }
 }
